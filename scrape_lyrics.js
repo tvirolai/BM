@@ -1,12 +1,11 @@
 /* jshint node:true */
-"use strict";
+'use strict';
 
 var request = require('request');
 var fs = require('fs');
-var cheerio = require('cheerio');
 
 var file = 'List_of_black_metal_bands.txt';
-var url = "http://www.darklyrics.com/";
+var url = 'http://www.darklyrics.com/';
 var bands = [];
 var band_urls = [];
 var verifiedUrls = [];
@@ -43,19 +42,19 @@ function parseUrls() {
 		var band = normalizer(bands[i]);
 		var initial = band[0];
 		if (! isNaN(initial) ) {
-			initial = "19";
+			initial = '19';
 		}
-		var band_url = url + initial + "\/" + band + ".html";
+		var band_url = url + initial + '\/' + band + '.html';
 		band_urls.push(band_url);
 	}
 	band_urls.forEach(function (url, index) {
 		verify_URL(url, index);
-	})
-};
+	});
+}
 
-function result () {
+function result() {
 	var percentage = Math.round(verifiedUrls.length / band_urls.length * 100);
-	console.log(percentage + " % (" + verifiedUrls.length + "/" + band_urls.length + ") of the contructed URLs work.");
+	console.log(percentage + ' % (' + verifiedUrls.length + '/' + band_urls.length + ') of the contructed URLs work.');
 	var verifiedUrls_as_string = verifiedUrls.join('\n');
 	fs.writeFile('List_of_verified_band_URLS.txt', verifiedUrls_as_string);
 }
@@ -63,13 +62,13 @@ function result () {
 function verify_URL (url, index) {
 	request(url, function (err, res) {
 		if (res.statusCode === 200) {
-			console.log(url + " works!");
+			console.log(url + ' works!');
 			verifiedUrls.push(url);
 			if (index == band_urls.length - 1) {
 				result();
 			}
 		} else {
-			console.log(url + " does not exist.");
+			console.log(url + ' does not exist.');
 		}
 	});
 }
@@ -78,7 +77,7 @@ function normalizer (string) {
 	var s = string.toLowerCase();
 	var normalizedString = '';
 	for (var i = 0; i < s.length; i++) {
-		if (normalizationMap[s[i]] != undefined) {
+		if (normalizationMap[s[i]] !== undefined) {
 			normalizedString += normalizationMap[s[i]];
 		} else {
 			normalizedString += s[i];
