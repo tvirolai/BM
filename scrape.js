@@ -10,21 +10,28 @@ var bands = [];
 function haku (callback) {
     for (var i = 0; i < urls.length; i++) {
         request(urls[i], function (err, res, body) {
-            var $ = cheerio.load(body);
-            $( "#mw-content-text > table.multicol > tr li > a" ).each(function (index, element) {
-                var band = $(this).text()
-                bands.push(band);
-            });
-            bands.sort();
-            if (callback) {
-                callback();
+            if (!err) {
+                var $ = cheerio.load(body);
+                $( "#mw-content-text > table.multicol > tr li > a" ).each(function (index, element) {
+                    var band = $(this).text()
+                    bands.push(band);
+                });
+                bands.sort();
+                if (callback) {
+                    callback();
+                }                
+            } else {
+                console.log("Error, error.");
             }
+
         });
     }
 };
 
 function tulosta () {
-    console.log(bands);
+    bands.forEach(function (value, index) {
+        console.log(value);
+    })
 }
 
 function tallenna () {
@@ -32,4 +39,4 @@ function tallenna () {
     fs.writeFile('List_of_black_metal_bands.txt', bands_as_string);
 }
 
-haku(tallenna);
+haku(tulosta);
