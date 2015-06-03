@@ -7,7 +7,7 @@ var cheerio = require('cheerio');
 var urls = ["http://en.wikipedia.org/wiki/List_of_black_metal_bands,_0%E2%80%93K", "http://en.wikipedia.org/wiki/List_of_black_metal_bands,_L%E2%80%93Z"];
 var bands = [];
 
-function haku (callback) {
+function haku(callback) {
     for (var i = 0; i < urls.length; i++) {
         request(urls[i], function (err, res, body) {
             if (!err) {
@@ -19,7 +19,7 @@ function haku (callback) {
                 bands.sort();
                 if (callback) {
                     callback();
-                }                
+                }
             } else {
                 console.log("Error, error.");
             }
@@ -31,12 +31,12 @@ function haku (callback) {
 function tulosta () {
     bands.forEach(function (value, index) {
         console.log(value);
-    })
-}
+    });
+};
 
 function tallenna () {
     var bands_as_string = bands.join('\n');
     fs.writeFile('List_of_black_metal_bands.txt', bands_as_string);
-}
+};
 
 haku(tulosta);
