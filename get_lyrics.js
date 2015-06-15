@@ -81,6 +81,9 @@ function getLyrics (url) {
 function isEnglish (lyric) {
 	var language = lngDetector.detect(lyric, 1);
 	language = language[0];
+	if (language == undefined) {
+		return false;
+	}
 	if (language.indexOf('english') < 0) {
 		return false;
 	} else {
@@ -97,7 +100,7 @@ function hasLyrics (lyric) {
 }
 
 function saveToFile (band, title, lyric) {
-	var songtitle = title.substring(title.indexOf('.') + 2).replace(/\s/g, '_');
+	var songtitle = title.substring(title.indexOf('.') + 2).replace(/\s/g, '_').replace(/\.|\'|\"|\:/g, '');
 	var filename = band + '-' + songtitle + '.txt';
 	fs.writeFile('lyrics/' + filename, lyric);
 	songCount += 1;
