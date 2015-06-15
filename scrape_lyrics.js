@@ -20,7 +20,7 @@ function getBandUrls () {
     });
 }
 
-function haku(callback) {
+function haku (callback) {
     var pageCount = 0;
     for (var i = 0; i < urls.length; i++) {
         request(urls[i], function (err, res, body) {
@@ -39,26 +39,26 @@ function haku(callback) {
                     }
                 }
             } else {
-                console.log("Error, error.");
+                console.log('Error, error.');
             }
 
         });
 
     }
-};
+}
 
 
 function parseURLs () {
     relative_urls.forEach(function (value, index) {
         var parsed_url = 'http://www.darklyrics.com' + value.substring(2, value.indexOf('\#'));
         if (lyrics_urls.indexOf(parsed_url) < 0) {
-            console.log("Writing: " + parsed_url);
+            console.log('Writing: ' + parsed_url);
             lyrics_urls.push(parsed_url);
         }
         if (index == relative_urls.length - 1) {
             var urls_as_string = lyrics_urls.join('\n');
             fs.writeFile('List_of_album_lyric_URLS.txt', urls_as_string);
-            console.log(lyrics_urls.length + " album URLs written to file.");
+            console.log(lyrics_urls.length + ' album URLs written to file.');
         }
     });
-};
+}

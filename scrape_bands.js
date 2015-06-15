@@ -1,10 +1,10 @@
 /* jshint node:true */
-"use strict";
+'use strict';
 
 var request = require('request');
 var fs = require('fs');
 var cheerio = require('cheerio');
-var urls = ["http://en.wikipedia.org/wiki/List_of_black_metal_bands,_0%E2%80%93K", "http://en.wikipedia.org/wiki/List_of_black_metal_bands,_L%E2%80%93Z"];
+var urls = ['http://en.wikipedia.org/wiki/List_of_black_metal_bands,_0%E2%80%93K', 'http://en.wikipedia.org/wiki/List_of_black_metal_bands,_L%E2%80%93Z'];
 var bands = [];
 
 function haku(callback) {
@@ -12,8 +12,8 @@ function haku(callback) {
         request(urls[i], function (err, res, body) {
             if (!err) {
                 var $ = cheerio.load(body);
-                $( "#mw-content-text > table.multicol > tr li > a" ).each(function (index, element) {
-                    var band = $(this).text()
+                $( '#mw-content-text > table.multicol > tr li > a' ).each(function (index, element) {
+                    var band = $(this).text();
                     bands.push(band);
                 });
                 bands.sort();
@@ -21,22 +21,22 @@ function haku(callback) {
                     callback();
                 }
             } else {
-                console.log("Error, error.");
+                console.log('Error, error.');
             }
 
         });
     }
-};
+}
 
 function tulosta () {
     bands.forEach(function (value, index) {
         console.log(value);
     });
-};
+}
 
 function tallenna () {
     var bands_as_string = bands.join('\n');
     fs.writeFile('List_of_black_metal_bands.txt', bands_as_string);
-};
+}
 
 haku(tulosta);

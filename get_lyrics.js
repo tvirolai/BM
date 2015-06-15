@@ -7,6 +7,7 @@ var cheerio = require('cheerio');
 var LanguageDetect = require('languagedetect');
 var albumUrlFile = 'List_of_album_lyric_URLS.txt';
 var urls = [];
+var lyric_url = "";
 
 var lngDetector = new LanguageDetect();
 
@@ -14,15 +15,15 @@ var songCount = 0;
 
 getAlbumUrls();
 
+//getLyrics('http://www.darklyrics.com/lyrics/bethlehem/schattenausderalexanderwelt.html');
+
 function getAlbumUrls () {
     fs.readFile(albumUrlFile, 'utf-8', function doneReading(err, contents) {
         if (!err) {
             urls = contents.split('\n');
-            console.log(urls.length);
+            urls.reverse();
         }
-        for (var i = 0; i < urls.length; i++) {
-        	getLyrics(urls[i]);
-        }
+				getLyrics(urls.pop());
     });
 }
 
@@ -46,10 +47,32 @@ function getLyrics (url) {
 		  		albumlyrics[title] = songlyrics;
 		  		saveToFile(band, title, songlyrics);
 		  	}
-		  }	
+		  }
+
+		  if (urls.length > 0) {
+		  	setTimeout(function () {
+		  		lyric_url = urls.pop();
+		  		console.log("URL is " + lyric_url);
+		  		if (function () {
+		  			request(lyric_url, function (err, res) {
+		  				if (res.statusCode === 200) {
+		  					return true;
+		  				}
+		  			})}) 
+		  		{
+		  			getLyrics(lyric_url);
+		  		} else {
+		  			console.log("Jaha.");
+		  			getLyrics(urls.pop());
+		  		}
+		  	}, 10000)
+		  } else {
+		  	console.log("Done.");
+		  }
 		//console.log(albumlyrics);
 		} else {
 			console.log('An error occurred.');
+			console.log(url);
 			console.log(err);
 		}
 	});
