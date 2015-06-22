@@ -3,7 +3,7 @@
 
 var scrapeBands = require('./lib/scrapeBands');
 var parseURLs = require('./lib/parseURLs');
-var verifyURL = require('./lib/verifyURL');
+//var verifyURL = require('./lib/verifyURL');
 var getLyrics = require('./lib/getLyrics');
 var getLyricURLs = require('./lib/getLyricURLs');
 var fs = require('fs');
