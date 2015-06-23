@@ -22,7 +22,7 @@ fs.ensureDir(dataDir, function (err) {
     console.log('An error occurred with data directory (' + dataDir + ').');
   }
 });
-fs.ensureDir(dataDir, function (err) {
+fs.ensureDir(lyricDir, function (err) {
   if (!err) {
     console.log('Directory ' + lyricDir + ' exists.');
   } else {
