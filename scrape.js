@@ -26,7 +26,7 @@ scrapeBands(urls, function (data) {
         console.log(lyricURLs.length + ' album URLs written to file \'' + outputFileForAlbumURLs + '\'.');
       });
       // Scrape the lyrics for each album and save them to file.
-      getLyrics(lyricURLs);
+      getLyrics(lyricURLs.reverse());
     });
   });
 });
