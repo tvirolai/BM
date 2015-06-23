@@ -8,7 +8,6 @@ var getLyricURLs = require('./lib/getLyricURLs');
 var fs = require('fs');
 var outputFileForAlbumURLs = './data/List_of_verified_album_URLs.txt';
 var urls = ['http://en.wikipedia.org/wiki/List_of_black_metal_bands,_0%E2%80%93K', 'http://en.wikipedia.org/wiki/List_of_black_metal_bands,_L%E2%80%93Z'];
-process.stdin.setEncoding('utf8');
 
 var bandNames = [];
 
