@@ -3,7 +3,6 @@
 
 var scrapeBands = require('./lib/scrapeBands');
 var parseURLs = require('./lib/parseURLs');
-//var verifyURL = require('./lib/verifyURL');
 var getLyrics = require('./lib/getLyrics');
 var getLyricURLs = require('./lib/getLyricURLs');
 var fs = require('fs');
@@ -24,7 +23,7 @@ scrapeBands(urls, function (data) {
     getLyricURLs(unverifiedBandURLs, function (lyricURLs) {
       var verifiedUrlsAsString = lyricURLs.join('\n');
       fs.writeFile(outputFileForAlbumURLs, verifiedUrlsAsString, function() {
-        console.log(lyricURLs.length + " album URLs written to file \'" + outputFileForAlbumURLs + "\'.");
+        console.log(lyricURLs.length + ' album URLs written to file \'' + outputFileForAlbumURLs + '\'.');
       });
       // Scrape the lyrics for each album and save them to file.
       getLyrics(lyricURLs);
