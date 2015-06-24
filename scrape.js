@@ -46,7 +46,7 @@ scrapeBands(urls, function (data) {
       // Scrape the lyrics for each album and save them to file.
       var estimatedScrapeTime = (lyricURLs.length * 10 / 60 / 60).toFixed(1);
       console.log('\nScraping lyrics into files. Each album is retrieved at an interval of 10 seconds. \
-        This will take approximately ' + estimatedScrapeTime + ' hours.\n');
+This will take approximately ' + estimatedScrapeTime + ' hours.\n');
       getLyrics(lyricURLs.reverse());
     });
   });
