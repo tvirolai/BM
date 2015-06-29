@@ -1,0 +1,35 @@
+MINING FOR EVIL
+
+A DATA-CENTRIC APPROACH TO BLACK METAL
+
+(SATANIC KERNEL PANIC IN THE ATTIC)
+
+INTRODUCTION
+
+You know how certain words just ooze a sort of power or dark aura? How singular words can frighten or transmit anger ("Perrrkele", anyone?)? It can oftentimes be hard to point your finger at what this effect is actually due to, although the answer can be found somewhere in the mix of phonetic and semantic qualities. Can words be "cursed"? It seems that there are words so loaded with negativity that they can contaminate other words, however innocent, they are attached to. Let me illustrate.
+
+Is not Dark Funeral the ultimate name for a black metal band? Although the its exact meaning is vague, it is composed of two highly sinister components in an extremely evil union. This can be illustrated by a simple test: try to take the adjective "dark" and attach it to a random substantive, or vice versa. The result is pure darkness every time. It may be easy to conjure up a few more on the top of your head, but could an algorithm determine which words in a mass of text are "evil"?
+
+This brings me to another, related problem. As a sub-genre of metal music, black metal is an hierarchical and unabashedly elitist subculture. What qualifies as black metal is, according to insider definitions, defined not so much by the musical style but by lyrical content and extramusical factors such as the philosophical and ideological inclinations of the musicians. The view presented by "Ritual Butcherer" of Archgoat is pretty much what a textbook definition of black metal would look like if such a rulebook existed:
+
+    "For me BLACK metal is about philosophy, and music comes second. If the music were more important than the philosophy, that would totally take all the seriousness away from this genre and make it one genre among others where music makes the difference, not your philosophy. BLACK metal is about Satanism and black METAL is about musical wankery. We play BLACK metal for Satan." (http://www.nocleansinging.com/2015/02/18/an-ncs-interview-ritual-butcherer-archgoat/)
+
+Read a handful of interviews and you'll find loads of similar sentiments. Or watch the highly entertaining documentary "Loputon Gehennan Liekki", where "Molestor Kadotus" (Anal Blasphemy, Musta Kappeli) sums this discussion up nicely by stating: "Saatanallisuus on se peruslähtökohta mistä liikutaan." ("To keep things satanic is what it boils down to"). This sounds clear enough, but how do you determine which song is "satanic" and which isn't?
+
+In practicality, this is defined by a peer-review process. Much like in scientific discussion, the value of a black metal album or band is determined by how the inner circle (or scene) accepts it. Artist can label themselves as "true" as they like, but it is the community of the BM scene that has the final word. And this is where the previous discussion has been leading to: could an adequately configure piece of software ease the burden of the black metal elite by automatically calculating a degree of evilness for BM albums? Could a "satanic factor" be determined for bands based on an analysis of their lyrics?
+
+Let's try.
+
+PROCESS
+
+In order to analyze the lyrical content of Black Metal, a pool of lyrics must be assembled first. To do this, some working definition of Black Metal is needed. Since finding each and every BM band in existence manually is not feasible, I decided to start this quest from the ultimate authority in every area: Wikipedia (List of black metal bands: https://en.wikipedia.org/wiki/List_of_black_metal_bands). As everyone with at least a little familiarity with the genre can instantly see, the list contains a lot of bands whose affiliation with the genre is distant at best (Katatonia, King Diamond or Isengard for example). Even so, it's a workable starting point.
+
+I decided to employ Node.js this time for programming the needed scripts. Data collection proceeded as follows.
+
+First, all bands listed in the article at Wikipedia were retrieved. This resulted in a list of 422 bands.
+
+A second script then went through this list, parsing these names into URLs for band pages in Darklyrics.com. All the parsed URLs were tested, and if a working response code was received from the server, saved into a list of verified band URLs. This list contained 342 URLs, so around 81 % of the automatically generated URLs worked.
+
+Third, a list of album page URLs was contructed using the hyperlinks found on these pages. This phase resulted in a total of 2136 URLs pointing to album pages in Darklyrics.com. 
+
+Lastly, each album page was scraped and each song was extracted. If the song contained lyrics in English (this was determined using the Languagedetect library: https://www.npmjs.com/package/languagedetect), it was written to a textfile. At first, I managed to get my IP address blocked by the server after bombarding it with a rapid succession of HTTP requests. This problem was circumvented by slowing down the pace of requests by a few seconds, after which the total process for scraping the lyrics took about 6 hours.
