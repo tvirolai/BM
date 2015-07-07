@@ -3,6 +3,7 @@
 
 import os
 import csv
+import operator
 
 
 class Analyzer(object):
@@ -10,7 +11,7 @@ class Analyzer(object):
     def __init__(self):
         lyricPath = './lyrics/'
         namePath = './data/'
-        lyrics = self.lyricsAsCSV(lyricPath)
+        self.lyrics = self.lyricsAsCSV(lyricPath)
         self.names = {}
         namesAsString = self.readFiles(
             namePath, 'infernalNames.txt', 'namesForTheDevil.txt')
@@ -34,7 +35,7 @@ class Analyzer(object):
             record["SONG"] = song
             record["LYRICS"] = lyrics
             lyricsDicts.append(record)
-        print(lyricsDicts)
+        return lyricsDicts
 
     def cleanLyrics(self, lyrics):
         lyrics = lyrics.lower()
@@ -59,17 +60,23 @@ class Analyzer(object):
         return fileContents
 
     def countNames(self):
-        total = 0
-        for x in self.names:
-            self.names[x] = self.lyrics.count(self.normalize(x))
-            total += self.names[x]
-        print(self.names)
-        print("Total count: " + str(total))
+        hits = {}
+        for x in self.lyrics:
+            hitCount = 0
+            if not x["BAND"] in hits:
+                hits[x["BAND"]] = hitCount
+            for n in self.names:
+                hitCount = x["LYRICS"].count(self.normalize(n))
+                hits[x["BAND"]] += hitCount
+        sortedHits = sorted(hits.items(),
+                            key=operator.itemgetter(1), reverse=True)
+        for line in sortedHits:
+            print(line[0] + ": " + str(line[1]))
 
     def normalize(self, string):
         return string.lower()
 
 if __name__ == '__main__':
     analyzer = Analyzer()
-    #analyzer.countNames()
+    analyzer.countNames()
     #lyrics = readFiles(lyricPath)
