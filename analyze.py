@@ -4,6 +4,7 @@
 import os
 import operator
 import math
+import argparse
 from matplotlib import pyplot as plt
 
 
@@ -24,9 +25,12 @@ class Analyzer(object):
         for x in hellNamesAsString.split('\n'):
             self.hellNames[x] = 0
 
-        self.averageNumberOfNames, self.averageNumberOfHellNames = self.countAverages()
+        self.averageNumberOfNames, self.averageNumberOfHellNames\
+            = self.countAverages()
 
-        self.bandsDistances, self.listOfAverageNumbersOfNames, self.listOfAverageNumbersOfHellNames, self.listOfBandNames, self.listOfTopIndeces = self.calculateSatanicFactor()
+        self.bandsDistances, self.listOfAverageNumbersOfNames,\
+            self.listOfAverageNumbersOfHellNames, self.listOfBandNames,\
+            self.listOfTopIndeces = self.calculateSatanicFactor()
 
     def printSatanFreq(self):
         print("Most evil names:")
@@ -50,13 +54,18 @@ class Analyzer(object):
             print(str(index) + ".", self.printableBandNames(
                 x[0]), round((x[1]), 2))
 
+    def plotAllBands(self):
+        self.scatterplotWithoutLabels(self.listOfAverageNumbersOfHellNames,
+                                      self.listOfAverageNumbersOfNames)
+
     def plotTopBands(self, number=5):
         # This function plots the number of bands specified in the argument.
         # Or 5 if no argument is provided.
         index = number - 1
         listOfTopIndeces = []
 
-        for i, band in enumerate(self.printDictSortedByValue(self.bandsDistances)):
+        for i, band in enumerate(self.printDictSortedByValue(
+                self.bandsDistances)):
             bandIndex = self.listOfBandNames.index(band[0])
             listOfTopIndeces.append(bandIndex)
             if i >= index:
@@ -139,7 +148,8 @@ class Analyzer(object):
                 listOfAverageNumbersOfNames[i],
                 listOfAverageNumbersOfHellNames[i])
 
-        return bandsDistances, listOfAverageNumbersOfNames, listOfAverageNumbersOfHellNames, listOfBandNames, listOfTopIndeces
+        return bandsDistances, listOfAverageNumbersOfNames,\
+            listOfAverageNumbersOfHellNames, listOfBandNames, listOfTopIndeces
 
     def scatterplot(self, xaxis, yaxis, labels):
         plt.scatter(xaxis, yaxis)
@@ -147,7 +157,7 @@ class Analyzer(object):
         for label, xaxis_value, yaxis_value in zip(labels, xaxis, yaxis):
             plt.annotate(self.printableBandNames(label),
                          xy=(xaxis_value, yaxis_value),
-                         xytext=(5, -5),
+                         xytext=(-50, 5),
                          textcoords='offset points')
         plt.title("Most satanic Black Metal bands")
         plt.xlabel("Average mentions of Hell / song")
@@ -225,7 +235,31 @@ class Analyzer(object):
         return sortedDict
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Analyzer")
+    parser.add_argument("-s", "--printsatan",
+                        help="Print Satan frequency of each band",
+                        action='store_true')
+    parser.add_argument("-p", "--printhell",
+                        help="Print Hell frequency of each band",
+                        action='store_true')
+    parser.add_argument("-f", "--printfactor",
+                        help="Print satanic factor of each band",
+                        action='store_true')
+    parser.add_argument("-t", "--plottop",
+                        help="Plot top bands",
+                        action='store_true')
+    parser.add_argument("-a", "--plot",
+                        help="Plot all bands as a scatterplot",
+                        action='store_true')
+    args = parser.parse_args()
     analyzer = Analyzer()
-    #analyzer.countNames()
-    analyzer.plotTopBands(4)
-    #lyrics = readFiles(lyricPath)
+    if args.printsatan:
+        analyzer.printSatanFreq()
+    if args.printhell:
+        analyzer.printHellFreq()
+    if args.printfactor:
+        analyzer.printSatanicFactor()
+    if args.plot:
+        analyzer.plotAllBands()
+    if args.plottop:
+        analyzer.plotTopBands()
